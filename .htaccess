@@ -1,0 +1,25 @@
+# Security settings
+Options -Indexes
+ServerSignature Off
+
+# Protect sensitive files
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+<FilesMatch "(config\.php|db\.php)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Enable rewrite engine
+RewriteEngine On
+
+# Force HTTPS (uncomment in production)
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+# PHP error handling
+php_flag display_errors off
+php_value error_log logs/error.log
