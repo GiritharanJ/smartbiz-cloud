@@ -2,21 +2,27 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-// config/db.php
 class Database {
-    private $host = getenv("DB_HOST");
-    private $db   = getenv("DB_NAME");
-    private $user = getenv("DB_USER");
-    private $pass = getenv("DB_PASSWORD");
-    private $port = getenv("DB_PORT");
+    private $host;
+    private $port;
+    private $dbname;
+    private $username;
+    private $password;
     private $pdo;
+
+    public function __construct() {
+        // Railway Environment Variables
+        $this->host     = getenv('DB_HOST') ?: 'localhost';
+        $this->port     = getenv('DB_PORT') ?: '5432';
+        $this->dbname   = getenv('DB_NAME') ?: 'smartbiz';
+        $this->username = getenv('DB_USER') ?: 'postgres';
+        $this->password = getenv('DB_PASS') ?: '';
+    }
 
     public function connect() {
         try {
-            // Test different connection strings
-            $dsn = "pgsql:host=$host;port=$port;dbname=$db;";
-            
-            // Option 1: With password
+            $dsn = "pgsql:host={$this->host};port={$this->port};dbname={$this->dbname};";
+
             $this->pdo = new PDO(
                 $dsn,
                 $this->username,
@@ -27,45 +33,16 @@ class Database {
                     PDO::ATTR_EMULATE_PREPARES => false
                 ]
             );
-            
+
             return $this->pdo;
-            
-        } catch(PDOException $e) {
-            // Detailed error for debugging
-            die("Connection failed: " . $e->getMessage() . "<br>
-                 Please check:<br>
-                 1. PostgreSQL is running: sudo systemctl status postgresql<br>
-                 2. Password is correct in config/db.php<br>
-                 3. Database 'smartbiz' exists<br>
-                 4. User 'postgres' has proper permissions");
+
+        } catch (PDOException $e) {
+            die("Database Connection Failed: " . $e->getMessage());
         }
     }
 }
 
-// Alternative connection method if above fails
-class DatabaseAlt {
-    private $conn;
-
-    public function connect() {
-        try {
-            // Try connecting without password first (peer authentication)
-            $this->conn = new PDO("pgsql:host=localhost;dbname=smartbiz", 'postgres');
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            return $this->conn;
-        } catch(PDOException $e) {
-            // If that fails, try with socket connection
-            try {
-                $this->conn = new PDO("pgsql:dbname=smartbiz", 'postgres');
-                $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                return $this->conn;
-            } catch(PDOException $e2) {
-                die("All connection attempts failed. Please configure PostgreSQL properly.");
-            }
-        }
-    }
-}
-
-// Start session
+// Start session safely
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -84,19 +61,7 @@ function redirect($url) {
     exit();
 }
 
-// Test database connection (optional - can be removed in production)
-function testDBConnection() {
-    try {
-        $db = new Database();
-        $conn = $db->connect();
-        echo "✅ Database connection successful!";
-        return true;
-    } catch (Exception $e) {
-        echo "❌ Database connection failed: " . $e->getMessage();
-        return false;
-    }
-}
+// Create global connection
 $database = new Database();
 $pdo = $database->connect();
 
-?>
