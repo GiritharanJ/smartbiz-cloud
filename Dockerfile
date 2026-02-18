@@ -1,22 +1,18 @@
 FROM php:8.2-cli
 
-# Install required packages
+# Install PostgreSQL driver
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     unzip \
     git \
     && docker-php-ext-install pdo pdo_pgsql
 
-# Set working directory
 WORKDIR /app
 
-# Copy all project files
 COPY . .
 
-# Expose port
 EXPOSE 8080
 
-# Start PHP server correctly (IMPORTANT FIX)
-CMD ["sh", "-c", "php -S 0.0.0.0:${PORT} -t ."]
+CMD ["sh", "-c", "php -S 0.0.0.0:${PORT:-8080} -t ."]
 
 
