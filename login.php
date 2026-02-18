@@ -5,6 +5,7 @@ error_reporting(E_ALL);
 
 session_start();
 require_once 'config/db-loader.php';
+require_once 'config/helpers.php';
 
 if (isLoggedIn()) {
     redirect('dashboard.php');
