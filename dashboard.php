@@ -1,6 +1,6 @@
 <?php
 $pageTitle = 'Dashboard';
-require_once 'config/db.php';
+require_once 'config/db-loader.php';
 require_once 'components/header.php';
 
 $db = new Database();

@@ -6,11 +6,11 @@ class RailwayDatabase {
     public function connect() {
         try {
             // Railway provides these environment variables automatically
-            $host = getenv('PGHOST') ?: 'localhost';
-            $port = getenv('PGPORT') ?: '5432';
-            $dbname = getenv('PGDATABASE') ?: 'railway';
-            $user = getenv('PGUSER') ?: 'postgres';
-            $password = getenv('PGPASSWORD') ?: '';
+            $host = getenv('PGHOST');
+            $port = getenv('PGPORT');
+            $dbname = getenv('PGDATABASE');
+            $user = getenv('PGUSER');
+            $password = getenv('PGPASSWORD');
             
             $dsn = "pgsql:host=$host;port=$port;dbname=$dbname;";
             
