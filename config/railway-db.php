@@ -1,6 +1,4 @@
 <?php
-// config/railway-db.php
-
 class RailwayDatabase {
     private $pdo;
 
@@ -12,7 +10,8 @@ class RailwayDatabase {
         $user = getenv('PGUSER');
         $password = getenv('PGPASSWORD');
 
-        if (!$host || !$port || !$dbname || !$user) {
+        // Check if env variables exist
+        if (!$host || !$port || !$dbname || !$user || !$password) {
             die("Railway ENV variables missing.");
         }
 
