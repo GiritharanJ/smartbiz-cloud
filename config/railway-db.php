@@ -1,5 +1,5 @@
 <?php
-class RailwayDatabase {
+class Database {
     private $pdo;
 
     public function connect() {
@@ -10,24 +10,18 @@ class RailwayDatabase {
         $user = getenv('PGUSER');
         $password = getenv('PGPASSWORD');
 
-        // Check if env variables exist
         if (!$host || !$port || !$dbname || !$user || !$password) {
             die("Railway ENV variables missing.");
         }
 
-        $dsn = "pgsql:host={$host};port={$port};dbname={$dbname};";
+        $dsn = "pgsql:host=$host;port=$port;dbname=$dbname";
 
-        try {
-            $this->pdo = new PDO($dsn, $user, $password, [
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-            ]);
+        $this->pdo = new PDO($dsn, $user, $password, [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+        ]);
 
-            return $this->pdo;
-
-        } catch (PDOException $e) {
-            die("Railway DB Connection failed: " . $e->getMessage());
-        }
+        return $this->pdo;
     }
 }
 

@@ -47,14 +47,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
-    <!-- Google Fonts - Inter for clean look -->
+    <!-- Google Fonts - Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <style>
-        /* Your exact color scheme */
         :root {
             --primary: #FF7F50;
             --primary-light: #FF6347;
@@ -69,7 +68,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             background: linear-gradient(135deg, #FF7F50 0%, #FF6347 50%, #FF4500 100%);
         }
 
-        /* Floating animation */
         @keyframes float {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-5px); }
@@ -80,7 +78,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             animation: float 4s ease-in-out infinite;
         }
 
-        /* Pulse effect for demo box */
         @keyframes softPulse {
             0% { box-shadow: 0 0 0 0 rgba(255, 127, 80, 0.4); }
             70% { box-shadow: 0 0 0 10px rgba(255, 127, 80, 0); }
@@ -91,13 +88,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             animation: softPulse 2s infinite;
         }
 
-        /* Input focus effect - REDUCED from 3px to 2px */
         .input-focus-effect:focus {
             border-color: var(--primary);
             box-shadow: 0 0 0 2px rgba(255, 127, 80, 0.15);
         }
         
-        /* Smaller logo container */
         .logo-container {
             width: 48px;
             height: 48px;
@@ -106,16 +101,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body class="min-h-screen bg-gradient-custom flex items-center justify-center p-3 relative overflow-hidden">
 
-    <!-- Decorative background - reduced opacity -->
+    <!-- Decorative background -->
     <div class="absolute inset-0 overflow-hidden z-0">
         <div class="absolute top-10 left-10 w-48 h-48 bg-white/5 rounded-full blur-3xl"></div>
         <div class="absolute bottom-10 right-10 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
     </div>
     
-    <!-- Main Login Card - REDUCED SIZE -->
+    <!-- Main Login Card -->
     <div class="bg-white/95 backdrop-blur-sm shadow-xl rounded-2xl w-full max-w-[360px] p-5 relative z-10">
         
-        <!-- Logo Section - COMPACT -->
+        <!-- Logo Section -->
         <div class="text-center mb-4">
             <div class="flex justify-center mb-2">
                 <div class="logo-container bg-gradient-to-br from-[#FF7F50] to-[#FF4500] rounded-xl flex items-center justify-center shadow-md float-animation">
@@ -128,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p class="text-gray-500 text-xs mt-0.5">Business Management System</p>
         </div>
         
-        <!-- Error Message - COMPACT -->
+        <!-- Error Message -->
         <?php if (!empty($error)) : ?>
             <div class="bg-red-50 border-l-3 border-red-500 text-red-700 p-2 rounded-lg mb-3 text-xs flex items-center">
                 <i class="fas fa-exclamation-circle text-red-500 mr-2 text-sm"></i>
@@ -136,30 +131,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         <?php endif; ?>
         
-        <!-- Login Form - COMPACT SPACING -->
-        <form method="POST" class="space-y-3.5">
-            <!-- Email Field -->
+        <!-- Login Form -->
+        <form method="POST" class="space-y-3.5" id="loginForm">
+            <!-- Email Field - WITHOUT default value -->
             <div>
                 <label class="block text-gray-600 text-xs font-medium mb-1">
                     <i class="fas fa-envelope text-[#FF7F50] mr-1 text-xs"></i>Email
                 </label>
                 <div class="relative">
-                    <input type="email" name="email" required value="admin@smartbiz.com"
+                    <input type="email" name="email" id="emailInput" required
                         class="w-full px-3 py-2 pl-8 text-sm border border-gray-200 rounded-lg focus:outline-none input-focus-effect transition-all"
-                        placeholder="Email">
+                        placeholder="Enter email" value="">
                     <i class="fas fa-envelope absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-300 text-xs"></i>
                 </div>
             </div>
             
-            <!-- Password Field -->
+            <!-- Password Field - WITHOUT default value -->
             <div>
                 <label class="block text-gray-600 text-xs font-medium mb-1">
                     <i class="fas fa-lock text-[#FF7F50] mr-1 text-xs"></i>Password
                 </label>
                 <div class="relative">
-                    <input type="password" name="password" required value="admin123"
+                    <input type="password" name="password" id="passwordInput" required
                         class="w-full px-3 py-2 pl-8 text-sm border border-gray-200 rounded-lg focus:outline-none input-focus-effect transition-all"
-                        placeholder="Password">
+                        placeholder="Enter password" value="">
                     <i class="fas fa-lock absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-300 text-xs"></i>
                     <button type="button" onclick="togglePassword()" class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-[#FF7F50]">
                         <i class="fas fa-eye text-xs" id="toggleIcon"></i>
@@ -167,7 +162,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </div>
             
-            <!-- Remember Me & Forgot Password - COMPACT -->
+            <!-- Remember Me & Forgot Password -->
             <div class="flex items-center justify-between text-xs">
                 <label class="flex items-center">
                     <input type="checkbox" class="rounded border-gray-300 text-[#FF7F50] focus:ring-[#FF7F50] scale-90">
@@ -178,7 +173,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </a>
             </div>
             
-            <!-- Login Button - COMPACT -->
+            <!-- Login Button -->
             <button type="submit"
                 class="w-full bg-gradient-to-r from-[#FF7F50] to-[#FF4500] hover:from-[#FF4500] hover:to-[#FF7F50] text-white py-2 rounded-lg font-medium text-sm transition-all hover:shadow-md flex items-center justify-center group">
                 <span>Login</span>
@@ -186,7 +181,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </button>
         </form>
         
-        <!-- Demo Credentials Box - COMPACT -->
+        <!-- Demo Credentials Box -->
         <div class="mt-4 bg-gradient-to-r from-orange-50 to-amber-50 p-3 rounded-xl border border-[#FF7F50]/30 demo-pulse">
             <div class="flex items-center mb-2">
                 <span class="bg-[#FF7F50] text-white px-2 py-0.5 rounded-full text-[10px] font-bold mr-2">DEMO</span>
@@ -194,7 +189,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             
             <div class="space-y-2">
-                <!-- Email Row - COMPACT -->
+                <!-- Email Row -->
                 <div class="flex items-center bg-white p-2 rounded-lg">
                     <div class="w-6 h-6 bg-[#FF7F50]/10 rounded-full flex items-center justify-center mr-2">
                         <i class="fas fa-envelope text-[#FF7F50] text-[10px]"></i>
@@ -208,7 +203,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </button>
                 </div>
                 
-                <!-- Password Row - COMPACT -->
+                <!-- Password Row -->
                 <div class="flex items-center bg-white p-2 rounded-lg">
                     <div class="w-6 h-6 bg-[#FF7F50]/10 rounded-full flex items-center justify-center mr-2">
                         <i class="fas fa-lock text-[#FF7F50] text-[10px]"></i>
@@ -223,14 +218,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </div>
             
-            <!-- Quick Login Button - COMPACT -->
-            <button onclick="quickLogin()" class="mt-2 w-full bg-[#FF7F50]/10 text-[#FF7F50] py-1.5 rounded-lg text-xs font-medium hover:bg-[#FF7F50] hover:text-white transition-colors flex items-center justify-center border border-[#FF7F50]/20">
+            <!-- FIXED: Quick Login Button - Now ALWAYS fills credentials -->
+            <button type="button" onclick="fillCredentials()" class="mt-2 w-full bg-[#FF7F50] text-white py-1.5 rounded-lg text-xs font-medium hover:bg-[#FF4500] transition-colors flex items-center justify-center">
                 <i class="fas fa-rocket mr-1 text-[10px]"></i>
                 Quick Login
             </button>
         </div>
         
-        <!-- Footer Link - COMPACT -->
+        <!-- Footer Link -->
         <div class="mt-3 text-center">
             <a href="#" class="text-[10px] text-gray-400 hover:text-[#FF7F50]">
                 <i class="far fa-question-circle mr-1"></i>Need help?
@@ -247,7 +242,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script>
         // Toggle password visibility
         function togglePassword() {
-            const passwordInput = document.querySelector('input[name="password"]');
+            const passwordInput = document.getElementById('passwordInput');
             const toggleIcon = document.getElementById('toggleIcon');
             
             if (passwordInput.type === 'password') {
@@ -268,21 +263,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             });
         }
         
-        // Quick login
-        function quickLogin() {
-            document.querySelector('input[name="email"]').value = 'admin@smartbiz.com';
-            document.querySelector('input[name="password"]').value = 'admin123';
+        // FIXED: This function now ALWAYS fills the credentials
+        function fillCredentials() {
+            // Get input elements
+            const emailInput = document.getElementById('emailInput');
+            const passwordInput = document.getElementById('passwordInput');
             
-            // Highlight briefly
-            document.querySelector('input[name="email"]').classList.add('ring-1', 'ring-[#FF7F50]');
-            document.querySelector('input[name="password"]').classList.add('ring-1', 'ring-[#FF7F50]');
+            // Set values (overwrites whatever is there)
+            emailInput.value = 'admin@smartbiz.com';
+            passwordInput.value = 'admin123';
             
-            showToast('✓ Credentials filled');
+            // Add visual feedback
+            emailInput.classList.add('ring-2', 'ring-[#FF7F50]', 'bg-orange-50');
+            passwordInput.classList.add('ring-2', 'ring-[#FF7F50]', 'bg-orange-50');
             
+            // Show success message
+            showToast('✓ Demo credentials filled!');
+            
+            // Remove highlight after 1 second
             setTimeout(() => {
-                document.querySelector('input[name="email"]').classList.remove('ring-1', 'ring-[#FF7F50]');
-                document.querySelector('input[name="password"]').classList.remove('ring-1', 'ring-[#FF7F50]');
+                emailInput.classList.remove('ring-2', 'ring-[#FF7F50]', 'bg-orange-50');
+                passwordInput.classList.remove('ring-2', 'ring-[#FF7F50]', 'bg-orange-50');
             }, 1000);
+            
+            // Optional: Auto-submit after filling (uncomment if you want)
+            // setTimeout(() => {
+            //     document.getElementById('loginForm').submit();
+            // }, 500);
         }
         
         // Toast notification
@@ -297,6 +304,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 toast.classList.add('translate-y-10', 'opacity-0');
             }, 1500);
         }
+        
+        // Auto-focus email field on page load
+        window.onload = function() {
+            document.getElementById('emailInput').focus();
+        };
     </script>
 </body>
 </html>
