@@ -1,5 +1,6 @@
 <?php
 $pageTitle = 'Customer Management';
+require_once '../config/init.php';
 require_once '../config/db.php';
 require_once '../components/header.php';
 

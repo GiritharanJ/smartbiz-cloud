@@ -11,7 +11,7 @@ $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once 'config/db-loader.php';
-    
+    require_once 'config/init.php';
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
     

@@ -1,12 +1,14 @@
 <?php
-session_start();
 $pageTitle = 'Dashboard';
-require_once 'config/db-loader.php';
+// Make sure db.php is loaded BEFORE header.php
+require_once 'config/db.php';
+require_once 'config/init.php';
 require_once 'components/header.php';
 
 $db = new Database();
 $pdo = $db->connect();
 
+// Rest of your dashboard code...
 // Get today's sales
 $stmt = $pdo->query("SELECT COALESCE(SUM(total_amount), 0) as total FROM invoices WHERE DATE(created_at) = CURRENT_DATE");
 $todaySales = $stmt->fetch(PDO::FETCH_ASSOC)['total'];

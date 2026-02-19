@@ -1,4 +1,8 @@
-<?php
+  <?php
+// Add this line at the VERY TOP of header.php
+require_once __DIR__ . '/../config/db.php';
+
+// Now this function will be available
 if (!isLoggedIn()) {
     redirect('login.php');
 }
@@ -40,7 +44,7 @@ try {
         'gst_enabled' => 'true'
     ];
     
-    // Log error for debugging (optional)
+    // Log error for debugging
     error_log("Settings table error: " . $e->getMessage());
 }
 ?>
@@ -63,7 +67,7 @@ try {
     </style>
 </head>
 <body class="bg-gray-50">
-    <!-- Rest of your header code continues... -->
+    <!-- Rest of your header code... -->
     <div class="flex h-screen">
         <!-- Sidebar -->
         <div class="sidebar w-64 text-white">
