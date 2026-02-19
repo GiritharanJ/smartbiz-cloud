@@ -1,6 +1,9 @@
 <?php
+require_once __DIR__ . '/../config/helpers.php';
+
 if (!isLoggedIn()) {
-    redirect('login.php');
+    header("Location: login.php");
+    exit;
 }
 
 // Get business settings

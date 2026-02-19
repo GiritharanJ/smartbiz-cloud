@@ -1,4 +1,5 @@
 <?php
+session_start();
 $pageTitle = 'Dashboard';
 require_once 'config/db-loader.php';
 require_once 'components/header.php';
