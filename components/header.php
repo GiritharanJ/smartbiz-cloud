@@ -1,18 +1,47 @@
 <?php
-require_once __DIR__ . '/../config/helpers.php';
-
 if (!isLoggedIn()) {
-    header("Location: login.php");
-    exit;
+    redirect('login.php');
 }
 
-// Get business settings
+// Get business settings with error handling
 $db = new Database();
 $pdo = $db->connect();
 $settings = [];
-$stmt = $pdo->query("SELECT * FROM settings");
-while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    $settings[$row['key']] = $row['value'];
+
+// Check if settings table exists before querying
+try {
+    $tableCheck = $pdo->query("SELECT EXISTS (
+        SELECT FROM information_schema.tables 
+        WHERE table_name = 'settings'
+    )");
+    
+    if ($tableCheck->fetchColumn()) {
+        $stmt = $pdo->query("SELECT * FROM settings");
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $settings[$row['key']] = $row['value'];
+        }
+    } else {
+        // Default settings if table doesn't exist
+        $settings = [
+            'business_name' => 'SmartBiz',
+            'business_logo' => '',
+            'currency' => '₹',
+            'gst_rate' => '18',
+            'gst_enabled' => 'true'
+        ];
+    }
+} catch (PDOException $e) {
+    // Fallback to defaults on error
+    $settings = [
+        'business_name' => 'SmartBiz',
+        'business_logo' => '',
+        'currency' => '₹',
+        'gst_rate' => '18',
+        'gst_enabled' => 'true'
+    ];
+    
+    // Log error for debugging (optional)
+    error_log("Settings table error: " . $e->getMessage());
 }
 ?>
 <!DOCTYPE html>
@@ -25,15 +54,16 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .bg-primary { background-color: #713600; }
-        .text-primary { color: #713600; }
-        .border-primary { border-color: #713600; }
-        .hover\:bg-primary:hover { background-color: #713600; }
-        .sidebar { background-color: #713600; }
+        .bg-primary { background-color: #FF7F50; }
+        .text-primary { color: #FF7F50; }
+        .border-primary { border-color: #FF7F50; }
+        .hover\:bg-primary:hover { background-color: #FF4500; }
+        .sidebar { background-color: #FF7F50; }
         .card { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
     </style>
 </head>
-<body class="bg-[#fffb8f]">
+<body class="bg-gray-50">
+    <!-- Rest of your header code continues... -->
     <div class="flex h-screen">
         <!-- Sidebar -->
         <div class="sidebar w-64 text-white">
