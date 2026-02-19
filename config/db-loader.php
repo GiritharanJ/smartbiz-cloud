@@ -1,12 +1,13 @@
 <?php
-// config/db-loader.php - Auto-detects environment and loads correct DB config
+// config/db-loader.php
 
-// Load appropriate database class
+function isRailway() {
+    return getenv('PGHOST') !== false;
+}
+
 if (isRailway()) {
     require_once __DIR__ . '/railway-db.php';
-
 } else {
     require_once __DIR__ . '/db.php';
-    // Your existing Database class
 }
-?>
+
