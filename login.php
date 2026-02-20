@@ -1,10 +1,8 @@
 <?php
-session_start();
+require_once 'config/database.php';
 
-// If already logged in, redirect to dashboard
-if (isset($_SESSION['user_id'])) {
-    header("Location: dashboard.php");
-    exit;
+if (isLoggedIn()) {
+    redirect('dashboard.php');
 }
 
 $error = '';
@@ -27,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_name'] = $user['name'];
             $_SESSION['role'] = $user['role'];
-            header("Location: dashboard.php");
+            header("Location: test_drive.php");
             exit;
         } else {
             $error = "Invalid email or password";
