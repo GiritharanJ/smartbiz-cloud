@@ -8,6 +8,20 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
+// Check if tables exist
+require_once 'config/db.php';
+$tables_exist = true;
+try {
+    $db = new Database();
+    $pdo = $db->connect();
+    $result = $pdo->query("SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'invoices')");
+    if (!$result->fetchColumn()) {
+        $tables_exist = false;
+    }
+} catch (Exception $e) {
+    $tables_exist = false;
+}
+
 // Get business type from URL or session
 $business_type = $_GET['type'] ?? $_SESSION['business_type'] ?? 'general';
 $_SESSION['business_type'] = $business_type;
@@ -38,6 +52,24 @@ $_SESSION['business_type'] = $business_type;
     </style>
 </head>
 <body class="bg-gray-50">
+
+<!-- Show database setup warning if needed -->
+<?php if (!$tables_exist): ?>
+<div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4 rounded">
+    <div class="flex">
+        <div class="flex-shrink-0">
+            <i class="fas fa-exclamation-triangle text-yellow-500"></i>
+        </div>
+        <div class="ml-3">
+            <p class="font-bold">Database not set up</p>
+            <a href="railway-setup.php" class="inline-block mt-2 bg-[#FF7F50] text-white px-4 py-2 rounded-lg text-sm">
+                Setup Database Now
+            </a>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+
     <!-- Top Bar -->
     <div class="bg-white shadow-sm">
         <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
@@ -275,7 +307,7 @@ $_SESSION['business_type'] = $business_type;
                     <i class="fas fa-magic mr-2"></i>
                     Load Sample <?php echo ucfirst($business_type); ?> Data
                 </a>
-                <a href="dashboard.php" 
+                <a href="dashboard.php?demo=<?php echo $business_type; ?>" 
                    class="border-2 border-[#FF7F50] text-[#FF7F50] px-6 py-3 rounded-lg font-semibold hover:bg-[#FF7F50] hover:text-white">
                     Go to Dashboard →
                 </a>
